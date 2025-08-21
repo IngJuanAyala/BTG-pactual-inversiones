@@ -4,6 +4,7 @@ Configuración centralizada para la plataforma BTG Pactual
 import os
 from typing import Optional
 from pydantic_settings import BaseSettings
+from pydantic import Field
 
 
 class Settings(BaseSettings):
@@ -15,15 +16,21 @@ class Settings(BaseSettings):
     debug: bool = False
     
     # Configuración de la base de datos MongoDB
-    mongodb_url: str = "mongodb://admin:password123@localhost:27017/btg_pactual?authSource=admin"
-    mongodb_database: str = "btg_pactual"
+    mongodb_url: str = Field(
+        default="mongodb://admin:password123@localhost:27017/btg_pactual?authSource=admin",
+        env="MONGODB_URL"
+    )
+    mongodb_database: str = Field(default="btg_pactual", env="MONGODB_DATABASE")
     
     # Configuración de Redis
-    redis_url: str = "redis://localhost:6379"
-    redis_db: int = 0
+    redis_url: str = Field(default="redis://localhost:6379", env="REDIS_URL")
+    redis_db: int = Field(default=0, env="REDIS_DB")
     
     # Configuración de JWT
-    jwt_secret_key: str = "your-secret-key-change-in-production"
+    jwt_secret_key: str = Field(
+        default="your-secret-key-change-in-production",
+        env="JWT_SECRET_KEY"
+    )
     jwt_algorithm: str = "HS256"
     jwt_access_token_expire_minutes: int = 30
     jwt_refresh_token_expire_days: int = 7
@@ -38,17 +45,17 @@ class Settings(BaseSettings):
     sns_topic_arn: Optional[str] = None
     
     # Configuración de notificaciones
-    sendgrid_api_key: Optional[str] = None
-    twilio_account_sid: Optional[str] = None
-    twilio_auth_token: Optional[str] = None
-    twilio_phone_number: Optional[str] = None
+    sendgrid_api_key: Optional[str] = Field(default=None, env="SENDGRID_API_KEY")
+    twilio_account_sid: Optional[str] = Field(default=None, env="TWILIO_ACCOUNT_SID")
+    twilio_auth_token: Optional[str] = Field(default=None, env="TWILIO_AUTH_TOKEN")
+    twilio_phone_number: Optional[str] = Field(default=None, env="TWILIO_PHONE_NUMBER")
     
     # Configuración de email
-    smtp_host: str = "smtp.gmail.com"
-    smtp_port: int = 587
-    smtp_username: Optional[str] = None
-    smtp_password: Optional[str] = None
-    smtp_use_tls: bool = True
+    smtp_host: str = Field(default="smtp.gmail.com", env="SMTP_HOST")
+    smtp_port: int = Field(default=587, env="SMTP_PORT")
+    smtp_username: Optional[str] = Field(default=None, env="SMTP_USERNAME")
+    smtp_password: Optional[str] = Field(default=None, env="SMTP_PASSWORD")
+    smtp_use_tls: bool = Field(default=True, env="SMTP_USE_TLS")
     
     # Configuración de Celery
     celery_broker_url: str = "redis://localhost:6379/1"
