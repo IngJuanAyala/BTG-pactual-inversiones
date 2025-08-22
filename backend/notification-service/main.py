@@ -211,7 +211,7 @@ class NotificationService:
                 
                 sg = SendGridAPIClient(api_key=settings.sendgrid_api_key)
                 mail = Mail(
-                    from_email="juanayalasalazar1@gmail.com",
+                    from_email=settings.from_email,
                     to_emails=to_email,
                     subject=subject,
                     html_content=message

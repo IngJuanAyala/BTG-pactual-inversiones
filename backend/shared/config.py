@@ -56,6 +56,7 @@ class Settings(BaseSettings):
     smtp_username: Optional[str] = Field(default=None, env="SMTP_USERNAME")
     smtp_password: Optional[str] = Field(default=None, env="SMTP_PASSWORD")
     smtp_use_tls: bool = Field(default=True, env="SMTP_USE_TLS")
+    from_email: str = Field(default="noreply@btgpactual.com", env="FROM_EMAIL")
     
     # Configuración de Celery
     celery_broker_url: str = "redis://localhost:6379/1"
