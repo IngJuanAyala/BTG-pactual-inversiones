@@ -1,0 +1,17 @@
+# Archivo de ejemplo para variables de Terraform
+# Copia este archivo como terraform.tfvars y llena los valores reales
+
+# Configuración de AWS
+aws_region = "us-east-1"
+
+# Variables sensibles (configurar con valores reales)
+mongodb_atlas_connection_string = "mongodb+srv://username:password@cluster.mongodb.net/"
+jwt_secret_key = "your-jwt-secret-key-here"
+sendgrid_api_key = "your-sendgrid-api-key-here"
+twilio_account_sid = "your-twilio-account-sid-here"
+twilio_auth_token = "your-twilio-auth-token-here"
+email_from = "noreply@yourdomain.com"
+
+# Configuración del dominio
+domain_name = "your-domain.com"
+
