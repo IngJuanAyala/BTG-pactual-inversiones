@@ -134,8 +134,8 @@ class UserSubscription(BaseModel):
 
 class Notification(BaseModel):
     """Modelo de notificación"""
-    id: UUID = Field(default_factory=uuid4)
-    user_id: UUID = Field(..., description="ID del usuario")
+    id: Optional[str] = Field(default=None)  # MongoDB ObjectId
+    user_id: str = Field(..., description="ID del usuario (ObjectId)")
     type: NotificationType = Field(..., description="Tipo de notificación")
     subject: str = Field(..., description="Asunto de la notificación")
     message: str = Field(..., description="Mensaje de la notificación")

@@ -19,6 +19,7 @@ from shared.models import (
     UserCreateRequest, UserUpdateRequest
 )
 from shared.auth import get_current_active_user, TokenData, check_rate_limit
+from bson import ObjectId
 
 
 # Configuración de logging
@@ -210,7 +211,7 @@ class NotificationService:
                 
                 sg = SendGridAPIClient(api_key=settings.sendgrid_api_key)
                 mail = Mail(
-                    from_email="noreply@btgpactual.com",
+                    from_email="juanayalasalazar1@gmail.com",
                     to_emails=to_email,
                     subject=subject,
                     html_content=message
@@ -331,7 +332,7 @@ class NotificationService:
         try:
             # Obtener información del usuario
             db = await get_database()
-            user = await db[Collections.USERS].find_one({"id": user_id})
+            user = await db[Collections.USERS].find_one({"_id": ObjectId(user_id)})
             
             if not user:
                 logger.error("Usuario no encontrado para notificación", user_id=user_id)
@@ -551,9 +552,9 @@ async def update_notification_preference(
                 detail="No puede modificar preferencias de otros usuarios"
             )
         
-        # Actualizar preferencia
+                # Actualizar preferencia
         result = await db[Collections.USERS].update_one(
-            {"id": user_id},
+            {"_id": ObjectId(user_id)},
             {"$set": {"notification_preference": preference.value}}
         )
         
@@ -584,17 +585,37 @@ async def update_notification_preference(
 # Endpoint para enviar notificación de suscripción a fondo
 @app.post("/notifications/fund-subscription")
 async def send_fund_subscription_notification(
-    user_id: str,
-    fund_name: str,
-    amount: float,
+    request: dict,
     background_tasks: BackgroundTasks,
     current_user: TokenData = Depends(check_rate_limit)
 ):
     """Enviar notificación de suscripción a fondo"""
     try:
+        # Extraer parámetros del body
+        user_id = request.get("user_id")
+        fund_name = request.get("fund_name")
+        amount = request.get("amount")
+        
+        # Validar parámetros requeridos
+        if not user_id:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="user_id es requerido"
+            )
+        if not fund_name:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="fund_name es requerido"
+            )
+        if not amount:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="amount es requerido"
+            )
+        
         # Obtener preferencia del usuario
         db = await get_database()
-        user = await db[Collections.USERS].find_one({"id": user_id})
+        user = await db[Collections.USERS].find_one({"_id": ObjectId(user_id)})
         
         if not user:
             raise HTTPException(
@@ -645,17 +666,37 @@ async def send_fund_subscription_notification(
 # Endpoint para enviar notificación de cancelación de fondo
 @app.post("/notifications/fund-cancellation")
 async def send_fund_cancellation_notification(
-    user_id: str,
-    fund_name: str,
-    amount: float,
+    request: dict,
     background_tasks: BackgroundTasks,
     current_user: TokenData = Depends(check_rate_limit)
 ):
     """Enviar notificación de cancelación de fondo"""
     try:
+        # Extraer parámetros del body
+        user_id = request.get("user_id")
+        fund_name = request.get("fund_name")
+        amount = request.get("amount")
+        
+        # Validar parámetros requeridos
+        if not user_id:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="user_id es requerido"
+            )
+        if not fund_name:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="fund_name es requerido"
+            )
+        if not amount:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="amount es requerido"
+            )
+        
         # Obtener preferencia del usuario
         db = await get_database()
-        user = await db[Collections.USERS].find_one({"id": user_id})
+        user = await db[Collections.USERS].find_one({"_id": ObjectId(user_id)})
         
         if not user:
             raise HTTPException(
