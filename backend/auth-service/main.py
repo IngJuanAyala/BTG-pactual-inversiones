@@ -56,9 +56,9 @@ app = FastAPI(
     description="API para autenticación y gestión de usuarios",
     version="1.0.0",
     lifespan=lifespan,
-    docs_url="/docs",
-    redoc_url="/redoc",
-    openapi_url="/openapi.json"
+    docs_url="/auth/docs",
+    redoc_url="/auth/redoc",
+    openapi_url="/auth/openapi.json"
 )
 
 # Configurar CORS

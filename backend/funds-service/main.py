@@ -51,7 +51,10 @@ app = FastAPI(
     title="BTG Pactual - Servicio de Fondos",
     description="API para gestión de fondos de inversión",
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
+    docs_url="/funds/docs",
+    redoc_url="/funds/redoc",
+    openapi_url="/funds/openapi.json"
 )
 
 # Configurar CORS

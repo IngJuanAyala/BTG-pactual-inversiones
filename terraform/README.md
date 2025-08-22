@@ -143,20 +143,32 @@ aws ecs describe-services --cluster btg-pactual-production --services auth-servi
 ## 🌐 **URLs de Acceso**
 
 ### **Load Balancer Principal:**
+
 - **URL Base**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com`
 
 ### **Endpoints Funcionales:**
 
 #### **Health Checks:**
+
 - **Health General**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/health`
 - **Auth Health**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/auth/health`
 
-#### **Documentación:**
-- **Swagger UI**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/docs`
-- **ReDoc**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/redoc`
-- **OpenAPI JSON**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/openapi.json`
+#### **Documentación por Servicio:**
+
+- **Auth Service Swagger**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/auth/docs`
+- **Auth Service ReDoc**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/auth/redoc`
+- **Auth Service OpenAPI**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/auth/openapi.json`
+
+- **Funds Service Swagger**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/funds/docs`
+- **Funds Service ReDoc**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/funds/redoc`
+- **Funds Service OpenAPI**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/funds/openapi.json`
+
+- **Notification Service Swagger**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/notifications/docs`
+- **Notification Service ReDoc**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/notifications/redoc`
+- **Notification Service OpenAPI**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/notifications/openapi.json`
 
 #### **Auth Service:**
+
 - **Root**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/auth/`
 - **Registro**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/auth/register`
 - **Login**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/auth/login`
@@ -164,13 +176,17 @@ aws ecs describe-services --cluster btg-pactual-production --services auth-servi
 - **Refresh Token**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/auth/refresh`
 
 #### **Funds Service:**
+
 - **Root**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/funds/`
 - **Health**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/funds/health`
 
 #### **Notification Service:**
+
 - **Root**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/notifications/`
 - **Health**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/notifications/health`
 
 ## 📁 Estructura de Archivos
+
+```
 
 ```

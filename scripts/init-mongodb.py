@@ -9,8 +9,8 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 from uuid import uuid4
 
-# Configuración de MongoDB Atlas
-MONGODB_URI = "mongodb+srv://btg_admin:bgt_pactual_2025@cluster0.qjzcu.mongodb.net/"
+# Configuración de MongoDB
+MONGODB_URI = os.getenv("MONGODB_URI", "mongodb+srv://username:password@cluster.mongodb.net/")
 DATABASE_NAME = "btg_pactual"
 
 # Datos iniciales de fondos
