@@ -102,8 +102,8 @@ resource "aws_lb_listener" "http" {
     type = "fixed-response"
     fixed_response {
       content_type = "text/plain"
-      message_body = "BTG Pactual API - Use /auth/, /funds/, or /notifications/"
-      status_code  = "200"
+      message_body = "Not Found - Use /health, /auth/, /funds/, or /notifications/"
+      status_code  = "404"
     }
   }
 }
@@ -176,6 +176,22 @@ resource "aws_lb_listener" "http" {
 # }
 
 # Listener Rules for HTTP (temporary until SSL is configured)
+resource "aws_lb_listener_rule" "health_check" {
+  listener_arn = aws_lb_listener.http.arn
+  priority     = 50
+
+  action {
+    type = "forward"
+    target_group_arn = aws_lb_target_group.auth_service.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/health"]
+    }
+  }
+}
+
 resource "aws_lb_listener_rule" "auth_service" {
   listener_arn = aws_lb_listener.http.arn
   priority     = 100
@@ -187,7 +203,41 @@ resource "aws_lb_listener_rule" "auth_service" {
 
   condition {
     path_pattern {
-      values = ["/auth/*"]
+      values = ["/auth", "/auth/*"]
+    }
+  }
+}
+
+# Regla específica para reescribir rutas del auth service
+resource "aws_lb_listener_rule" "auth_rewrite" {
+  listener_arn = aws_lb_listener.http.arn
+  priority     = 90
+
+  action {
+    type = "forward"
+    target_group_arn = aws_lb_target_group.auth_service.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/auth/health", "/auth/docs", "/auth/openapi.json"]
+    }
+  }
+}
+
+# Regla específica para la documentación de Swagger
+resource "aws_lb_listener_rule" "swagger_docs" {
+  listener_arn = aws_lb_listener.http.arn
+  priority     = 85
+
+  action {
+    type = "forward"
+    target_group_arn = aws_lb_target_group.auth_service.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/docs", "/redoc", "/openapi.json"]
     }
   }
 }

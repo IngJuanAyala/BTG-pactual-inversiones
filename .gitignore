@@ -143,3 +143,17 @@ build/
 secrets/
 credentials/
 api_keys.txt
+
+# Terraform - Archivos de configuración con credenciales
+*.tfvars
+*.tfvars.json
+terraform.tfstate
+terraform.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+# Terraform - Archivos específicos del proyecto
+terraform/terraform.tfvars
+terraform/terraform.tfvars.example
+terraform/.env
+terraform/secrets/

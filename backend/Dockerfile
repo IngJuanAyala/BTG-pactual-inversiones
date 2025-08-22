@@ -16,8 +16,11 @@ COPY requirements.txt .
 # Instalar dependencias de Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar código de la aplicación
-COPY . .
+# Copiar código de la aplicación (todos los directorios)
+COPY auth-service/ ./auth-service/
+COPY funds-service/ ./funds-service/
+COPY notification-service/ ./notification-service/
+COPY shared/ ./shared/
 
 # Crear usuario no root para seguridad
 RUN useradd --create-home --shell /bin/bash app \
