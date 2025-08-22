@@ -11,16 +11,13 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copiar archivo de dependencias
-COPY requirements.txt .
+COPY ../requirements.txt .
 
 # Instalar dependencias de Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar código de la aplicación (todos los directorios)
-COPY auth-service/ ./auth-service/
-COPY funds-service/ ./funds-service/
-COPY notification-service/ ./notification-service/
-COPY shared/ ./shared/
+# Copiar código del auth-service
+COPY . .
 
 # Crear usuario no root para seguridad
 RUN useradd --create-home --shell /bin/bash app \
@@ -28,7 +25,7 @@ RUN useradd --create-home --shell /bin/bash app \
 USER app
 
 # Exponer puerto
-EXPOSE 8000 8001 8002
+EXPOSE 8002
 
 # Comando por defecto
-CMD ["python", "-m", "uvicorn", "funds-service.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8002"]

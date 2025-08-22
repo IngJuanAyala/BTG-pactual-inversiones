@@ -102,8 +102,8 @@ resource "aws_lb_listener" "http" {
     type = "fixed-response"
     fixed_response {
       content_type = "text/plain"
-      message_body = "BTG Pactual API - Use /auth/, /funds/, or /notifications/"
-      status_code  = "200"
+      message_body = "Not Found - Use /health, /auth/, /funds/, or /notifications/"
+      status_code  = "404"
     }
   }
 }
@@ -176,6 +176,22 @@ resource "aws_lb_listener" "http" {
 # }
 
 # Listener Rules for HTTP (temporary until SSL is configured)
+resource "aws_lb_listener_rule" "health_check" {
+  listener_arn = aws_lb_listener.http.arn
+  priority     = 50
+
+  action {
+    type = "forward"
+    target_group_arn = aws_lb_target_group.auth_service.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/health"]
+    }
+  }
+}
+
 resource "aws_lb_listener_rule" "auth_service" {
   listener_arn = aws_lb_listener.http.arn
   priority     = 100
@@ -187,7 +203,75 @@ resource "aws_lb_listener_rule" "auth_service" {
 
   condition {
     path_pattern {
-      values = ["/auth/*"]
+      values = ["/auth", "/auth/*"]
+    }
+  }
+}
+
+# Regla específica para reescribir rutas del auth service
+resource "aws_lb_listener_rule" "auth_rewrite" {
+  listener_arn = aws_lb_listener.http.arn
+  priority     = 90
+
+  action {
+    type = "forward"
+    target_group_arn = aws_lb_target_group.auth_service.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/auth/health", "/auth/docs", "/auth/openapi.json"]
+    }
+  }
+}
+
+# Regla específica para la documentación de Swagger del auth service
+resource "aws_lb_listener_rule" "auth_swagger_docs" {
+  listener_arn = aws_lb_listener.http.arn
+  priority     = 80
+
+  action {
+    type = "forward"
+    target_group_arn = aws_lb_target_group.auth_service.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/auth/docs", "/auth/redoc", "/auth/openapi.json"]
+    }
+  }
+}
+
+# Regla específica para la documentación de Swagger del funds service
+resource "aws_lb_listener_rule" "funds_swagger_docs" {
+  listener_arn = aws_lb_listener.http.arn
+  priority     = 110
+
+  action {
+    type = "forward"
+    target_group_arn = aws_lb_target_group.funds_service.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/funds/docs", "/funds/redoc", "/funds/openapi.json"]
+    }
+  }
+}
+
+# Regla específica para la documentación de Swagger del notification service
+resource "aws_lb_listener_rule" "notification_swagger_docs" {
+  listener_arn = aws_lb_listener.http.arn
+  priority     = 120
+
+  action {
+    type = "forward"
+    target_group_arn = aws_lb_target_group.notification_service.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/notifications/docs", "/notifications/redoc", "/notifications/openapi.json"]
     }
   }
 }

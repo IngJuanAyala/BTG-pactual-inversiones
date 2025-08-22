@@ -140,80 +140,53 @@ aws ecs update-service --cluster btg-pactual-production --service notification-s
 aws ecs describe-services --cluster btg-pactual-production --services auth-service funds-service notification-service
 ```
 
-## 🌐 URLs de Acceso
+## 🌐 **URLs de Acceso**
 
-Una vez desplegado:
+### **Load Balancer Principal:**
 
-- **ALB Principal**: `http://btg-pactual-production-alb-xxx.us-east-1.elb.amazonaws.com`
-- **Auth Service**: `/auth/*`
-- **Funds Service**: `/funds/*`
-- **Notification Service**: `/notifications/*`
+- **URL Base**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com`
 
-### URLs de Swagger/OpenAPI:
+### **Endpoints Funcionales:**
 
-- **Auth Service**: `http://btg-pactual-production-alb-xxx.us-east-1.elb.amazonaws.com/auth/docs`
-- **Funds Service**: `http://btg-pactual-production-alb-xxx.us-east-1.elb.amazonaws.com/funds/docs`
-- **Notification Service**: `http://btg-pactual-production-alb-xxx.us-east-1.elb.amazonaws.com/notifications/docs`
+#### **Health Checks:**
+
+- **Health General**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/health`
+- **Auth Health**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/auth/health`
+
+#### **Documentación por Servicio:**
+
+- **Auth Service Swagger**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/auth/docs`
+- **Auth Service ReDoc**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/auth/redoc`
+- **Auth Service OpenAPI**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/auth/openapi.json`
+
+- **Funds Service Swagger**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/funds/docs`
+- **Funds Service ReDoc**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/funds/redoc`
+- **Funds Service OpenAPI**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/funds/openapi.json`
+
+- **Notification Service Swagger**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/notifications/docs`
+- **Notification Service ReDoc**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/notifications/redoc`
+- **Notification Service OpenAPI**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/notifications/openapi.json`
+
+#### **Auth Service:**
+
+- **Root**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/auth/`
+- **Registro**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/auth/register`
+- **Login**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/auth/login`
+- **Perfil**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/auth/me`
+- **Refresh Token**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/auth/refresh`
+
+#### **Funds Service:**
+
+- **Root**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/funds/`
+- **Health**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/funds/health`
+
+#### **Notification Service:**
+
+- **Root**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/notifications/`
+- **Health**: `http://btg-pactual-production-alb-376975977.us-east-1.elb.amazonaws.com/notifications/health`
 
 ## 📁 Estructura de Archivos
 
 ```
-terraform/
-├── main.tf              # Configuración principal (VPC, subnets, security groups)
-├── loadbalancer.tf      # Application Load Balancer y target groups
-├── ecs.tf              # ECS cluster, task definitions y servicios
-├── iam.tf              # Roles y políticas IAM
-├── database.tf         # Configuración de base de datos
-├── ssl.tf              # Certificados SSL (comentado para pruebas)
-├── terraform.tfvars.example  # Ejemplo de variables
-└── README.md           # Este archivo
-```
 
-## 🔒 Seguridad
-
-**NUNCA** subir a Git:
-
-- `terraform.tfvars` - Contiene valores reales
-- `*.tfvars` - Archivos con credenciales
-- `.terraform/` - Estado local
-- `terraform.tfstate` - Estado de Terraform
-
-## 🧹 Limpieza
-
-Para destruir toda la infraestructura:
-
-```bash
-terraform destroy
-```
-
-**⚠️ ADVERTENCIA**: Esto eliminará todos los recursos creados.
-
-## 📝 Notas Importantes
-
-1. **SSL**: Configurado para HTTP únicamente (para pruebas técnicas)
-2. **Dominio**: Usa URLs del ALB directamente
-3. **Base de datos**: MongoDB Atlas externo
-4. **Logs**: CloudWatch Logs habilitados
-5. **Monitoreo**: Health checks configurados
-
-## 🔍 Verificación
-
-### Verificar servicios ECS:
-
-```bash
-aws ecs list-services --cluster btg-pactual-production
-```
-
-### Verificar logs:
-
-```bash
-aws logs describe-log-groups --log-group-name-prefix "/ecs/btg-pactual-production"
-```
-
-### Probar endpoints:
-
-```bash
-curl http://btg-pactual-production-alb-xxx.us-east-1.elb.amazonaws.com/auth/health
-curl http://btg-pactual-production-alb-xxx.us-east-1.elb.amazonaws.com/funds/health
-curl http://btg-pactual-production-alb-xxx.us-east-1.elb.amazonaws.com/notifications/health
 ```

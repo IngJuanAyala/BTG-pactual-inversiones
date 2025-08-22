@@ -55,7 +55,10 @@ app = FastAPI(
     title="BTG Pactual - Servicio de Autenticación",
     description="API para autenticación y gestión de usuarios",
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
+    docs_url="/auth/docs",
+    redoc_url="/auth/redoc",
+    openapi_url="/auth/openapi.json"
 )
 
 # Configurar CORS
@@ -131,6 +134,51 @@ async def health_check():
         "service": "auth-service",
         "version": settings.app_version,
         "hot_reload": "✅ Funcionando correctamente!"
+    }
+
+
+@app.get("/auth/health")
+async def auth_health_check():
+    """Verificar salud del servicio (ruta con prefijo auth)"""
+    return {
+        "status": "healthy",
+        "service": "auth-service",
+        "version": settings.app_version,
+        "hot_reload": "✅ Funcionando correctamente!"
+    }
+
+
+@app.get("/")
+async def root():
+    """Endpoint raíz"""
+    return {
+        "message": "BTG Pactual - Servicio de Autenticación",
+        "version": settings.app_version,
+        "docs": "/docs",
+        "health": "/health",
+        "endpoints": [
+            "/auth/register",
+            "/auth/login",
+            "/auth/me",
+            "/auth/refresh"
+        ]
+    }
+
+
+@app.get("/auth/")
+async def auth_root():
+    """Endpoint raíz del auth service"""
+    return {
+        "message": "BTG Pactual - Servicio de Autenticación",
+        "version": settings.app_version,
+        "docs": "/auth/docs",
+        "health": "/auth/health",
+        "endpoints": [
+            "/auth/register",
+            "/auth/login",
+            "/auth/me",
+            "/auth/refresh"
+        ]
     }
 
 

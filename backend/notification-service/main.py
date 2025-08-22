@@ -50,7 +50,10 @@ app = FastAPI(
     title="BTG Pactual - Servicio de Notificaciones",
     description="API para gestión de notificaciones",
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
+    docs_url="/notifications/docs",
+    redoc_url="/notifications/redoc",
+    openapi_url="/notifications/openapi.json"
 )
 
 # Configurar CORS
